@@ -96,6 +96,50 @@
   </div>
 
 <script>
+
+  const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"'))
+
+  let shiftPressed
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode !== 16) return
+
+    shiftPressed = true
+  }
+  const handleKeyUp = (e) => {
+    if (e.keyCode !== 16) return
+
+    shiftPressed = false
+  }
+
+  const checkOtherBoxes = (e) => {
+    const determineChecks = () => {
+      let needToCheck = false
+      checkboxes.forEach((checkbox) => {
+        if (!checkbox.checked && needToCheck) {
+          checkbox.checked = true
+        } else if (checkbox.checked && !needToCheck) {
+          needToCheck = true
+        } else if (checkbox === e.target) {
+          needToCheck = false
+        }
+      })
+    }
+    determineChecks()
+  }
+
+  const handleClick = (e) => {
+    if (!shiftPressed) return
+
+    checkOtherBoxes(e)
+  }
+
+  window.addEventListener('keydown', handleKeyDown)
+  window.addEventListener('keyup', handleKeyUp)
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('click', handleClick)
+  })
 </script>
 </body>
 </html>
