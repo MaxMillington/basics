@@ -182,6 +182,35 @@
     </li>
   </ul>
 <script>
+  const listElements = Array.from(document.querySelectorAll('li'))
+
+  const getTimes = (listElements) => {
+    return listElements.map((element) => {
+      return element['dataset'].time
+    })
+  }
+
+  const convertToSeconds = (times) => {
+    return times.map((time) => {
+      const splitTime = time.split(':')
+      return (Number(splitTime[0] * 60)) + Number(splitTime[1])
+    })
+  }
+
+  const times = convertToSeconds(getTimes(listElements))
+
+  const reducedTimes = times.reduce((total, time) => {
+    return total + time
+  })
+
+  const formattedTime = () => {
+    const hours = Math.floor((reducedTimes / 60))
+    const minutes = reducedTimes % 60
+    return `${String(hours)}:${String(minutes)}`
+  }
+
+  console.log(formattedTime())
+
 </script>
 </body>
 </html>
